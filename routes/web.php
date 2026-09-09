@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified', EnsureManagesStore::class])->prefix('admi
     Route::livewire('produk', 'pages::admin.produk')->name('produk');
     Route::livewire('kategori', 'pages::admin.kategori')->name('kategori');
     Route::livewire('pengaturan', 'pages::admin.pengaturan')->name('pengaturan');
+    Route::livewire('laporan', 'pages::admin.laporan')->name('laporan');
 });
 
 require __DIR__.'/settings.php';

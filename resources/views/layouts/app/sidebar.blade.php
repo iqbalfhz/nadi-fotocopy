@@ -34,6 +34,9 @@
                         <flux:sidebar.item icon="tag" :href="route('admin.kategori')" :current="request()->routeIs('admin.kategori')" wire:navigate>
                             Kategori
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="chart-bar" :href="route('admin.laporan')" :current="request()->routeIs('admin.laporan')" wire:navigate>
+                            Laporan
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.pengaturan')" :current="request()->routeIs('admin.pengaturan')" wire:navigate>
                             Pengaturan
                         </flux:sidebar.item>
