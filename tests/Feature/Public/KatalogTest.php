@@ -14,14 +14,14 @@ beforeEach(function () {
 });
 
 test('katalog bisa dibuka tanpa login', function () {
-    $this->get(route('home'))->assertOk();
+    $this->get(route('katalog'))->assertOk();
 });
 
-test('menampilkan profil toko dari pengaturan', function () {
-    $this->get(route('home'))
-        ->assertSeeText("Nadi's Fotocopy")
-        ->assertSeeText('Senin–Sabtu 08.00–20.00')
-        ->assertSeeText('Jl. Contoh No. 1');
+test('katalog menautkan ke halaman publik lainnya lewat navigasi', function () {
+    $this->get(route('katalog'))
+        ->assertSee(route('home'), escape: false)
+        ->assertSee(route('tentang'), escape: false)
+        ->assertSee(route('kontak'), escape: false);
 });
 
 test('menampilkan produk aktif beserta harganya', function () {
@@ -33,7 +33,7 @@ test('menampilkan produk aktif beserta harganya', function () {
         'stock' => 10,
     ]);
 
-    $this->get(route('home'))
+    $this->get(route('katalog'))
         ->assertSeeText('Pulpen Standard')
         ->assertSeeText('Rp 3.500')
         ->assertSeeText('Tersedia');
@@ -47,7 +47,7 @@ test('tidak pernah membocorkan angka stok ke halaman publik', function () {
         'stock' => 137,
     ]);
 
-    $response = $this->get(route('home'));
+    $response = $this->get(route('katalog'));
 
     $response->assertSeeText('Tersedia');
     $response->assertDontSee('137');
@@ -59,7 +59,7 @@ test('produk habis ditandai habis', function () {
         'name' => 'Spidol Hitam',
     ]);
 
-    $this->get(route('home'))
+    $this->get(route('katalog'))
         ->assertSeeText('Spidol Hitam')
         ->assertSeeText('Habis');
 });
@@ -71,7 +71,7 @@ test('jasa selalu tampil tersedia walau stok nol', function () {
         'price' => 300,
     ]);
 
-    $response = $this->get(route('home'));
+    $response = $this->get(route('katalog'));
 
     $response->assertSeeText('Fotocopy A4');
     $response->assertSeeText('Tersedia');
@@ -82,7 +82,7 @@ test('produk nonaktif tidak muncul di katalog', function () {
     Product::factory()->create(['category_id' => $this->category->id, 'name' => 'Produk Tampil']);
     Product::factory()->inactive()->create(['category_id' => $this->category->id, 'name' => 'Produk Sembunyi']);
 
-    $this->get(route('home'))
+    $this->get(route('katalog'))
         ->assertSeeText('Produk Tampil')
         ->assertDontSeeText('Produk Sembunyi');
 });
@@ -91,14 +91,14 @@ test('tombol whatsapp memakai nomor toko yang sudah dinormalkan', function () {
     Product::factory()->create(['category_id' => $this->category->id, 'name' => 'Map Kertas']);
 
     // 08123456789 harus jadi 628123456789.
-    $this->get(route('home'))->assertSee('https://wa.me/628123456789', escape: false);
+    $this->get(route('katalog'))->assertSee('https://wa.me/628123456789', escape: false);
 });
 
 test('pencarian menyaring produk', function () {
     Product::factory()->create(['category_id' => $this->category->id, 'name' => 'Kertas HVS']);
     Product::factory()->create(['category_id' => $this->category->id, 'name' => 'Pensil 2B']);
 
-    $this->get(route('home', ['q' => 'Kertas']))
+    $this->get(route('katalog', ['q' => 'Kertas']))
         ->assertSeeText('Kertas HVS')
         ->assertDontSeeText('Pensil 2B');
 });
@@ -109,7 +109,7 @@ test('filter kategori menyaring produk', function () {
     Product::factory()->create(['category_id' => $this->category->id, 'name' => 'Pulpen Biru']);
     Product::factory()->create(['category_id' => $lain->id, 'name' => 'HVS A4']);
 
-    $this->get(route('home', ['kategori' => 'kertas']))
+    $this->get(route('katalog', ['kategori' => 'kertas']))
         ->assertSeeText('HVS A4')
         ->assertDontSeeText('Pulpen Biru');
 });
@@ -117,7 +117,7 @@ test('filter kategori menyaring produk', function () {
 test('katalog tidak membocorkan data laporan penjualan', function () {
     Product::factory()->create(['category_id' => $this->category->id]);
 
-    $this->get(route('home'))
+    $this->get(route('katalog'))
         ->assertDontSeeText('Omzet')
         ->assertDontSeeText('TRX-');
 });

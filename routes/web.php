@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\EnsureManagesStore;
 use Illuminate\Support\Facades\Route;
 
 // Website publik — tanpa akun, tanpa keranjang (§4.1).
-Route::get('/', [CatalogController::class, 'index'])->name('home');
+Route::livewire('/', 'pages::public.beranda')->name('home');
+Route::livewire('katalog', 'pages::public.katalog')->name('katalog');
+Route::livewire('tentang', 'pages::public.tentang')->name('tentang');
+Route::livewire('kontak', 'pages::public.kontak')->name('kontak');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Support\Rupiah;
+use App\Support\WhatsApp;
 use Illuminate\Contracts\View\View;
 
 class ReceiptController extends Controller
@@ -65,21 +66,6 @@ class ReceiptController extends Controller
         $lines[] = '';
         $lines[] = 'Terima kasih!';
 
-        return 'https://wa.me/'.$this->normalizePhone($transaction->customer_phone)
-            .'?text='.rawurlencode(implode("\n", $lines));
-    }
-
-    /**
-     * Ubah 08xx menjadi format internasional 628xx.
-     */
-    private function normalizePhone(string $phone): string
-    {
-        $digits = preg_replace('/\D/', '', $phone) ?? '';
-
-        if (str_starts_with($digits, '0')) {
-            return '62'.substr($digits, 1);
-        }
-
-        return $digits;
+        return WhatsApp::link($transaction->customer_phone, implode("\n", $lines));
     }
 }

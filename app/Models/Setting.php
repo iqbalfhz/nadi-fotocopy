@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\StoreProfile;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -30,5 +31,8 @@ class Setting extends Model
     public static function put(string $key, ?string $value): void
     {
         static::query()->updateOrCreate(['key' => $key], ['value' => $value]);
+
+        // Profil toko memo pengaturan per request — buang supaya tidak basi.
+        StoreProfile::flush();
     }
 }
