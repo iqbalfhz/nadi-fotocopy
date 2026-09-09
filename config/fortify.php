@@ -161,7 +161,7 @@ return [
     */
 
     'features' => [
-        Features::registration(),
+        // Features::registration(), // Sengaja dimatikan: akun dibuat lewat seeder/command (lihat §7.1 dokumentasi).
         Features::resetPasswords(),
         Features::emailVerification(),
         Features::twoFactorAuthentication([
