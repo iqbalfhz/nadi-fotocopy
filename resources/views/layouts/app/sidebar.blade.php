@@ -16,6 +16,15 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                <flux:sidebar.group heading="Toko" class="grid">
+                    <flux:sidebar.item icon="calculator" :href="route('pos.kasir')" :current="request()->routeIs('pos.kasir')" wire:navigate>
+                        Kasir
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="receipt-percent" :href="route('pos.riwayat')" :current="request()->routeIs('pos.riwayat')" wire:navigate>
+                        Riwayat
+                    </flux:sidebar.item>
+                </flux:sidebar.group>
             </flux:sidebar.nav>
 
             <flux:spacer />
