@@ -25,6 +25,20 @@
                         Riwayat
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                @if (auth()->user()->canManageStore())
+                    <flux:sidebar.group heading="Admin" class="grid">
+                        <flux:sidebar.item icon="cube" :href="route('admin.produk')" :current="request()->routeIs('admin.produk')" wire:navigate>
+                            Produk
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="tag" :href="route('admin.kategori')" :current="request()->routeIs('admin.kategori')" wire:navigate>
+                            Kategori
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="cog-6-tooth" :href="route('admin.pengaturan')" :current="request()->routeIs('admin.pengaturan')" wire:navigate>
+                            Pengaturan
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endif
             </flux:sidebar.nav>
 
             <flux:spacer />

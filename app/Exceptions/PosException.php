@@ -54,4 +54,14 @@ class PosException extends RuntimeException
     {
         return new self('Alasan pembatalan wajib diisi.');
     }
+
+    public static function stockReasonRequired(): self
+    {
+        return new self('Alasan penyesuaian stok wajib diisi.');
+    }
+
+    public static function negativeStock(): self
+    {
+        return new self('Stok tidak boleh bernilai negatif.');
+    }
 }

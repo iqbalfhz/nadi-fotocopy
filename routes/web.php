@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReceiptController;
+use App\Http\Middleware\EnsureManagesStore;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -14,6 +15,13 @@ Route::middleware(['auth', 'verified'])->prefix('pos')->name('pos.')->group(func
     Route::livewire('kasir', 'pages::pos.kasir')->name('kasir');
     Route::livewire('riwayat', 'pages::pos.riwayat')->name('riwayat');
     Route::get('struk/{transaction}', [ReceiptController::class, 'show'])->name('struk');
+});
+
+// Panel Admin hanya untuk owner (§7.1).
+Route::middleware(['auth', 'verified', EnsureManagesStore::class])->prefix('admin')->name('admin.')->group(function () {
+    Route::livewire('produk', 'pages::admin.produk')->name('produk');
+    Route::livewire('kategori', 'pages::admin.kategori')->name('kategori');
+    Route::livewire('pengaturan', 'pages::admin.pengaturan')->name('pengaturan');
 });
 
 require __DIR__.'/settings.php';
