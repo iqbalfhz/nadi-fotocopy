@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\EnsureManagesStore;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+// Website publik — tanpa akun, tanpa keranjang (§4.1).
+Route::get('/', [CatalogController::class, 'index'])->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
